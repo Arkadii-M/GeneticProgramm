@@ -9,6 +9,31 @@ Node::Node(bool terminate, std::string val, Node* left, Node* right):
 {
 }
 
+Node::Node(const Node& node):
+	is_terminate(node.is_terminate),
+	value(node.value),
+	order_number(node.order_number)
+{
+	if (node.left_son != nullptr)
+	{
+		this->left_son = new Node(*node.left_son);
+	}
+	else
+	{
+		this->left_son = nullptr;
+	}
+
+	if (node.right_son != nullptr)
+	{
+		this->right_son = new Node(*node.right_son);
+	}
+	else
+	{
+		this->right_son = nullptr;
+	}
+
+}
+
 Node::~Node()
 {
 	if (left_son != nullptr)

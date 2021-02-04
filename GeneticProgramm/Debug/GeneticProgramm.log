@@ -1,2 +1,12 @@
-﻿  main.cpp
+﻿  Calculate.cpp
+  Chromosome.cpp
+  GAExecuter.cpp
+  GASelector.cpp
+  GAWorker.cpp
+  main.cpp
+  Node.cpp
+  Random.cpp
+  SubTreeGenerator.cpp
+  Tree.cpp
+  Создание кода...
   GeneticProgramm.vcxproj -> C:\Users\Programmer\source\repos\GeneticProgramm\Debug\GeneticProgramm.exe

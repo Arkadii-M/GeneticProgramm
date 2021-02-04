@@ -32,15 +32,6 @@ SubTreeGenerator::~SubTreeGenerator()
 	this->tree = nullptr;
 }
 
-void SubTreeGenerator::SetTree(Tree* rhs)
-{
-	this->tree = rhs;
-	if (tree != nullptr)
-	{
-		this->max_depth = tree->GetMaxDepth();
-		this->min_depth = tree->GetMinDepth();
-	}
-}
 
 Tree* SubTreeGenerator::GenerateNewTree(uint min_depth, uint max_depth)
 {
@@ -49,18 +40,33 @@ Tree* SubTreeGenerator::GenerateNewTree(uint min_depth, uint max_depth)
 
 	this->tree = new Tree(min_depth, max_depth);
 
-	this->tree->SetRoot(this->GenerateSubTree());
+	this->tree->SetRoot(this->GenerateTree());
 	this->tree->SetDepth(this->depth);
 
 
 	return this->tree;
 }
 
-Node* SubTreeGenerator::GenerateSubTree()
+Node* SubTreeGenerator::GenerateSubTree(uint depth)
+{
+	return this->RandTree(depth);
+}
+
+Node* SubTreeGenerator::GenerateSubTree(uint min_depth, uint max_depth)
 {
 	Node* subtree = nullptr;
+	uint depth = this->min_depth + (int)(rand() % (this->max_depth - this->min_depth + 1)); // rand between min_depth and max_depth
 
-	srand(time(NULL));
+	uint ltc = depth;
+
+	subtree = this->RandTree(ltc);
+
+	return subtree;
+}
+
+Node* SubTreeGenerator::GenerateTree()
+{
+	Node* subtree = nullptr;
 	this->depth = this->min_depth +  (int) ( rand() % (this->max_depth - this->min_depth +1) ); // rand between min_depth and max_depth
 
 	uint ltc = this->depth;

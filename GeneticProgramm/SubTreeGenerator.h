@@ -33,15 +33,14 @@ public:
 		Tree* tree = nullptr);
 	~SubTreeGenerator();
 
-
-	void SetTree(Tree* rhs);
-
 	Tree* GenerateNewTree(uint min_depth, uint max_depth);
-	Node* GenerateSubTree();
+	Node* GenerateSubTree(uint depth);
+	Node* GenerateSubTree(uint min_depth,uint max_depth);
 private:
 	Node* RandTree(uint ltc);
 	Node* CreateTerminalNode(uint ltc);
 	Node* CreateFunctionalNode(uint ltc);
+	Node* GenerateTree();
 };
 
 #endif // !SUBTREEGENERATOR_H

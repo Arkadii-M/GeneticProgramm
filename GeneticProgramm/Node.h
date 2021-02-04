@@ -20,6 +20,8 @@ private:
 public:
 	Node(bool terminate, std::string val, Node* left = nullptr, Node* right = nullptr);
 
+	Node(const Node& node);
+
 	~Node();
 
 	bool IsTerminate();
