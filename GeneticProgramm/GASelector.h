@@ -2,6 +2,7 @@
 #include <vector>
 #include "Chromosome.h"
 #include "Calculate.h"
+#include "GAEvaluate.h"
 #ifndef GASELECTOR_H
 #define GASELECTOR_H
 typedef unsigned int uint;
@@ -31,19 +32,15 @@ private:
 
 	uint chose_size;
 
-	std::vector<double>* y;
-	Calcluate* calc;
-	pEval Eval;
+	GAEvaluate* evaluate;
+
+
 
 public:
-	GASelector(std::vector<Chromosome*>* data);
+	GASelector(std::vector<Chromosome*>* data, GAEvaluate* evaluate);
 
+	void SetData(std::vector<Chromosome*>* data);
 	void SetCrossoverProbability(double prob);
-
-	void SetYVector(std::vector<double>* y);
-
-	void SetCalculator(Calcluate* calc);
-	void SetEval(pEval Eval);
 	void SetChoseSize(uint size);
 
 	void MakeSelection();

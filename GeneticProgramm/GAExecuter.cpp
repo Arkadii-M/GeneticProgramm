@@ -1,11 +1,9 @@
 #include "GAExecuter.h"
 
-GAExecuter::GAExecuter(MutateFunc mut, CrossoveFunc cross, SubTreeGenerator* gen):
-	Mutate(mut),
-	Crossove(cross),
+GAExecuter::GAExecuter(GAOperators* operators):
 	to_mutation(nullptr),
 	to_crossover(nullptr),
-	gen(gen)
+	operators(operators)
 
 {
 }
@@ -26,7 +24,7 @@ void GAExecuter::Execute()
 
 	while (cross_it < this->to_crossover->end())
 	{
-		this->Crossove((*cross_it).first, (*cross_it).second);
+		this->operators->Crossove((*cross_it).first, (*cross_it).second);
 		cross_it++;
 	}
 
@@ -34,7 +32,7 @@ void GAExecuter::Execute()
 	auto mut_it = this->to_mutation->begin();
 	while (mut_it < this->to_mutation->end())
 	{
-		this->Mutate(*mut_it,this->gen);
+		this->operators->Mutate(*mut_it);
 		mut_it++;
 	}
 

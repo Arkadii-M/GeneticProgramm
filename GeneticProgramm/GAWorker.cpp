@@ -6,13 +6,17 @@ GAWorker::GAWorker(std::vector<Chromosome*>* data, double p_mut, double p_cross)
 	p_cross(p_cross),
 	executer(nullptr),
 	selector(nullptr),
-	calc(nullptr),
-	Eval(nullptr),
-	avg_fitness(0),
-	y(nullptr)
+	avg_fitness(0)
 	
 {
 	this->pop_size = this->data->size();
+}
+
+GAWorker::~GAWorker()
+{
+	delete data;
+	delete selector;
+	delete executer;
 }
 
 void GAWorker::SetExecuter(GAExecuter* executer)
@@ -25,20 +29,6 @@ void GAWorker::SetSelector(GASelector* selector)
 	this->selector = selector;
 }
 
-void GAWorker::SetCalculator(Calcluate* calc)
-{
-	this->calc = calc;
-}
-
-void GAWorker::SetEval(pEval eval)
-{
-	this->Eval = eval;
-}
-
-void GAWorker::SetYVector(std::vector<double>* y)
-{
-	this->y = y;
-}
 
 void GAWorker::InsertOne(Chromosome* chr)
 {
@@ -86,21 +76,6 @@ void GAWorker::Execute()
 	this->executer->Execute();
 
 	this->AddToPopulation(to_add);
-}
-
-void GAWorker::FindAvgFit()
-{
-
-	double temp =0.0;
-
-	auto iter = this->data->begin();
-	while (iter < this->data->end())
-	{
-		temp += this->Eval(*iter, this->y, this->calc);
-		iter++;
-	}
-	this->avg_fitness = temp / this->GetPopSize();
-
 }
 
 uint GAWorker::GetPopSize()

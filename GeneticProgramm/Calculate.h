@@ -33,12 +33,15 @@ public:
 
 	void SetVarsMap(std::map<std::string, double> var_map);
 
+	void SetVarValue(std::string var,double value);
+
 private:
 	double Calc(std::string func,std::string op); // calculate the function
 	double Calc(std::string func, std::string left,std::string right);
 
 	std::string CalcString(std::string func, std::string op); // returns calculated value in string representation
 	std::string CalcString(std::string func, std::string left, std::string right);
+
 
 	double StringToDouble(std::string val);
 

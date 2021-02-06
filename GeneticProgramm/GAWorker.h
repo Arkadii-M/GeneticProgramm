@@ -19,25 +19,17 @@ private:
 
 	double avg_fitness;
 	std::vector<Chromosome*> *data;
-	std::vector<double>* y;
 
 	GAExecuter *executer;
 	GASelector *selector;
 
-	Calcluate* calc;
-	pEval Eval;
-
 	
 public:
 	GAWorker(std::vector<Chromosome*>* data,double p_mut,double p_cross);
+	~GAWorker();
 
 	void SetExecuter(GAExecuter* executer);
 	void SetSelector(GASelector* selector);
-	void SetCalculator(Calcluate* calc);
-	void SetEval(pEval eval);
-	void SetYVector(std::vector<double>* y);
-
-
 
 	void InsertOne(Chromosome* chr);
 	void InsertMany(std::vector<Chromosome*> * chr);
@@ -51,7 +43,6 @@ public:
 private:
 	void Execute();
 
-	void FindAvgFit();
 
 	uint GetPopSize();
 

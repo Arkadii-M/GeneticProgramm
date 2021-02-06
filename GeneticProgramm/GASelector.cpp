@@ -1,6 +1,6 @@
 #include "GASelector.h"
 
-GASelector::GASelector(std::vector<Chromosome*>* data):
+GASelector::GASelector(std::vector<Chromosome*>* data, GAEvaluate* evaluate):
 	data(data),
 	parents(nullptr),
 	to_die(nullptr),
@@ -9,9 +9,7 @@ GASelector::GASelector(std::vector<Chromosome*>* data):
 	p_mut(0),
 	p_cross(0),
 	CurrentTotalFitness(0),
-	y(nullptr),
-	calc(nullptr),
-	Eval(nullptr),
+	evaluate(evaluate),
 	chose_size(0)
 
 
@@ -170,18 +168,10 @@ void GASelector::SetCrossoverProbability(double prob)
 {
 	this->p_cross = prob;
 }
-void GASelector::SetYVector(std::vector<double>* y)
-{
-	this->y = y;
-}
-void GASelector::SetCalculator(Calcluate* calc)
-{
-	this->calc = calc;
-}
 
-void GASelector::SetEval(pEval Eval)
+void GASelector::SetData(std::vector<Chromosome*>* data)
 {
-	this->Eval = Eval;
+	this->data = data;
 }
 
 void GASelector::CalculateFitness()
@@ -192,7 +182,8 @@ void GASelector::CalculateFitness()
 	auto iter = this->data->begin();
 	while (iter < this->data->end())
 	{
-		fitness = this->Eval(*iter, this->y, this->calc);
+		fitness = this->evaluate->Eval(*iter);
+		//fitness = this->Eval(*iter, this->y, this->calc);
 		this->chrom_fitness.push_back(fitness);
 		total_fitness += fitness;
 		iter++;

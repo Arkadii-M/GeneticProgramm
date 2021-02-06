@@ -12,6 +12,7 @@ private:
 
 public:
 	Chromosome(Tree* tree);
+	~Chromosome();
 
 	Tree* GetData();
 };

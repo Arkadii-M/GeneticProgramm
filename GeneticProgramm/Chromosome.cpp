@@ -5,6 +5,11 @@ Chromosome::Chromosome(Tree* tree):
 {
 }
 
+Chromosome::~Chromosome()
+{
+	delete this->data;
+}
+
 Tree* Chromosome::GetData()
 {
 	return this->data;

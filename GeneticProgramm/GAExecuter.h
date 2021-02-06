@@ -2,6 +2,7 @@
 #include <vector>
 #include "Chromosome.h"
 #include "SubTreeGenerator.h"
+#include "GAOperators.h"
 #ifndef GA_EXECUTER
 #define GA_EXECUTER
 typedef unsigned int uint;
@@ -12,12 +13,11 @@ class GAExecuter
 private:
 	std::vector<Chromosome*>* to_mutation;
 	std::vector<std::pair<Chromosome*, Chromosome*>>* to_crossover;
-	SubTreeGenerator* gen;
-	MutateFunc Mutate;
-	CrossoveFunc Crossove;
+
+	GAOperators* operators;
 
 public:
-	GAExecuter(MutateFunc mut, CrossoveFunc cross, SubTreeGenerator* gen);
+	GAExecuter(GAOperators* operators);
 
 	void SetForMutation(std::vector<Chromosome*>* to_mutation);
 

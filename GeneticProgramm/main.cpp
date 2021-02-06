@@ -1,95 +1,30 @@
 
 #include <iostream>
-#include "Tree.h"
-#include "SubTreeGenerator.h"
-#include <string>
 #include <vector>
+#include <string>
 #include <map>
+
+
 #include "Calculate.h"
-#include "Chromosome.h"
+#include "RedefinedOperators.h"
+#include "GAEvaluate.h"
+#include "GAExecuter.h"
+#include "GAOperators.h"
+#include "GASelector.h"
+#include "GAWorker.h"
 using namespace std;
-
-
-double myplus(double p1, double p2)
-{
-	return p1 + p2;
-}
-
-double myminus(double p1, double p2)
-{
-	return p1 - p2;
-}
-double mymult(double p1, double p2)
-{
-	return p1 * p2;
-}
-
-double myabs(double p)
-{
-	return abs(p);
-}
-
-
-
-void Crossove(Chromosome* chr1, Chromosome* chr2)
-{
-	Tree* first = chr1->GetData();
-	Tree* second = chr2->GetData();
-
-	uint first_count = first->GetTotalNodes();
-	uint second_count = second->GetTotalNodes();
-
-	uint r1 = rand() % (first_count-1) + 1;
-	uint r2 = rand() % (second_count- 1) + 1;
-
-	Node* node1 = first->GetNodeAtPos(r1);
-	Node* node2 = second->GetNodeAtPos(r2);
-
-	first->SetNodeAtPos(node2, r1); // don't numerate there, because after swap links the second three is numerate wrong.
-	second->SetNodeAtPos(node1, r2);
-
-	first->NumerateNodes();
-	second->NumerateNodes();
-}
-
-
-void Mutate(Chromosome* chr,SubTreeGenerator * gen)
-{
-	Tree* tree = chr->GetData();
-
-	uint count = tree->GetTotalNodes();
-
-	uint r = rand() % (count - 1) + 1;
-
-	Node* node = tree->GetNodeAtPos(r);
-
-	Node* random = gen->GenerateSubTree(tree->GetMinDepth(),tree->GetMaxDepth()); // Generate random subtree here
-
-	tree->SetAndDeleteOldAtPos(random, r);
-	tree->NumerateNodes();
-}
-
-
-double Eval(std::vector<Chromosome*> * data,std::vector<double> y,Calcluate * calc)
-{
-	double res= 0.0;
-	for (uint i = 0; i < data->size(); ++i)
-	{
-		res += abs(   calc->CalcTree((*data)[i]->GetData())   - y[i]    );
-	}
-	return res;
-
-}
 int main()
-{/*
+{
+
+
+
 	srand(time(NULL));
 
 	cout << "test" << endl;
-
+	
+	double crossove_prob = 0.38;
 	std::vector<std::string> vars = std::vector<std::string>();
 	vars.push_back("x");
-	vars.push_back("y");
-	vars.push_back("z");
 
 	std::vector<std::string> constants = std::vector<std::string>();
 	constants.push_back("1.1");
@@ -106,39 +41,69 @@ int main()
 
 	std::map<std::string, unsigned int> func_map = { {"+",2},{"-",2} ,{"*",2},{"abs",1} };
 
-	std::map<std::string, double> var_map = { {"x",-1.3},{"y",-2.8},{"z",4.7} };
+	std::map<std::string, double> var_map = { {"x",-1.3},};
 
-	std::map<std::string, SFunc> single_functions_map = { {"abs",myabs} };
+	std::map<std::string, SFunc> single_functions_map = { {"abs",RedefOp::myabs} };
 
-	std::map<std::string, DFunc> double_functions_map = { {"+",myplus},{"-",myminus},{"*",mymult} };
+	std::map<std::string, DFunc> double_functions_map = { {"+",RedefOp::myplus},{"-",RedefOp::myminus},{"*",RedefOp::mymult} };
 
-	Calcluate calc = Calcluate(vars, constants, funcs, func_map, single_functions_map, double_functions_map);
-	calc.SetVarsMap(var_map);
+	// setup calculator
+	Calcluate* calc = new Calcluate(vars, constants, funcs, func_map, single_functions_map, double_functions_map);
+	calc->SetVarsMap(var_map);
+
+	//setup input data
+	std::vector<double> x = {1.1,2.2,3.3,4.4,5.5,6.6,7.7,8.8,9.9};
+	std::vector<double> y = {1.2,2.3,3.4,4.5,5.6,6.7,7.8,8.8,10};
+	//Setup GAEvaulate
+	GAEvaluate* eval = new GAEvaluate(calc);
+	eval->SetX(x);
+	eval->SetY(y);
+
+	// setup tree generator
+	SubTreeGenerator* generator = new SubTreeGenerator(vars, constants, funcs, func_map);
+
+
+	//Setup GaOperators
+	GAOperators* operators = new GAOperators(generator);
+
+
+	// setup GAExecuter
+	GAExecuter* executer = new GAExecuter(operators);
+
+
+	//create population
+	std::vector<Chromosome*>* data = new std::vector<Chromosome*>();
+
+
+	Chromosome* chr1 = new Chromosome(generator->GenerateNewTree(2, 2));
+	Chromosome* chr2 = new Chromosome(generator->GenerateNewTree(2, 2));
+	Chromosome* chr3 = new Chromosome(generator->GenerateNewTree(2, 2));
+	Chromosome* chr4 = new Chromosome(generator->GenerateNewTree(2, 2));
+	Chromosome* chr5 = new Chromosome(generator->GenerateNewTree(2, 2));
+
+	data->push_back(chr1);
+	data->push_back(chr2);
+	data->push_back(chr3);
+	data->push_back(chr4);
+	data->push_back(chr5);
+
+	// setup GASelector
+	GASelector* selector = new GASelector(data, eval);
+
+	//setup GAWorker
+	GAWorker* worker = new GAWorker(data,0.0,0.63);
+
+
+	worker->SetExecuter(executer);
+	worker->SetSelector(selector);
 
 
 
+	delete worker;
 
-	SubTreeGenerator generator = SubTreeGenerator(vars, constants, funcs, func_map);
-	Tree* tree = generator.GenerateNewTree(2, 2);
-	Chromosome* chr1 = new Chromosome(tree);
-
-	delete tree;
-	*/
-
-	std::vector<int> data = { 1,2,3,4,5 };
-	auto iter = data.begin();
-
-	while (iter < data.end())
-	{
-		if ((*iter) == 1)
-		{
-			iter =data.erase(iter);
-			continue;
-		}
-		cout << *iter << endl;
-		iter++;
-	}
 	system("pause");
 
 	return 0;
 }
+
+

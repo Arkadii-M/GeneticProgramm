@@ -141,23 +141,29 @@
   <ItemGroup>
     <ClCompile Include="Calculate.cpp" />
     <ClCompile Include="Chromosome.cpp" />
+    <ClCompile Include="GAEvaluate.cpp" />
     <ClCompile Include="GAExecuter.cpp" />
+    <ClCompile Include="GAOperators.cpp" />
     <ClCompile Include="GASelector.cpp" />
     <ClCompile Include="GAWorker.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Random.cpp" />
+    <ClCompile Include="RedefinedOperators.cpp" />
     <ClCompile Include="SubTreeGenerator.cpp" />
     <ClCompile Include="Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Calculate.h" />
     <ClInclude Include="Chromosome.h" />
+    <ClInclude Include="GAEvaluate.h" />
     <ClInclude Include="GAExecuter.h" />
+    <ClInclude Include="GAOperators.h" />
     <ClInclude Include="GASelector.h" />
     <ClInclude Include="GAWorker.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Random.h" />
+    <ClInclude Include="RedefinedOperators.h" />
     <ClInclude Include="SubTreeGenerator.h" />
     <ClInclude Include="Tree.h" />
   </ItemGroup>

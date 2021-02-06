@@ -25,18 +25,21 @@
     <Filter Include="Исходные файлы\Random">
       <UniqueIdentifier>{ec908e3e-2cf8-491a-a245-ec82dc166c87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Файлы заголовков\GAOperations">
+      <UniqueIdentifier>{be51552f-eea7-4361-a5cb-3409b815aa9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\GAOperations">
+      <UniqueIdentifier>{130e2606-84f6-4d71-a1be-fe3ae9ba0a4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\Tree">
+      <UniqueIdentifier>{cced7160-04ec-4073-8fa9-32798182ec26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\Tree">
+      <UniqueIdentifier>{1c62c986-a600-49bd-a899-1c99f4c898c7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="Tree.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="SubTreeGenerator.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Calculate.cpp">
@@ -57,17 +60,26 @@
     <ClCompile Include="Random.cpp">
       <Filter>Исходные файлы\Random</Filter>
     </ClCompile>
+    <ClCompile Include="SubTreeGenerator.cpp">
+      <Filter>Исходные файлы\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Tree.cpp">
+      <Filter>Исходные файлы\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Исходные файлы\Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="RedefinedOperators.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="GAEvaluate.cpp">
+      <Filter>Исходные файлы\GAOperations</Filter>
+    </ClCompile>
+    <ClCompile Include="GAOperators.cpp">
+      <Filter>Исходные файлы\GAOperations</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Node.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="SubTreeGenerator.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Calculate.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -85,6 +97,24 @@
     </ClInclude>
     <ClInclude Include="Random.h">
       <Filter>Файлы заголовков\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="GAOperators.h">
+      <Filter>Файлы заголовков\GAOperations</Filter>
+    </ClInclude>
+    <ClInclude Include="GAEvaluate.h">
+      <Filter>Файлы заголовков\GAOperations</Filter>
+    </ClInclude>
+    <ClInclude Include="SubTreeGenerator.h">
+      <Filter>Файлы заголовков\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Файлы заголовков\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree.h">
+      <Filter>Файлы заголовков\Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="RedefinedOperators.h">
+      <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

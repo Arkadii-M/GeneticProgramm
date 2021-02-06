@@ -22,6 +22,34 @@ void Calcluate::SetVarsMap(std::map<std::string, double> var_map)
 	this->var_map = var_map;
 }
 
+void Calcluate::SetVarValue(std::string var, double value)
+{
+	bool has_in_vars = false;
+	auto iter = this->variables.begin();
+	while (iter < this->variables.end())
+	{
+		if (*iter == var)
+		{
+			has_in_vars = true;
+			break;
+		}
+		iter++;
+	}
+
+	if (!has_in_vars)
+	{
+		this->variables.push_back(var);
+	}
+
+	auto found = this->var_map.find(var);
+	if (found == this->var_map.end())
+	{
+		this->var_map.insert(std::pair<std::string, double>(var, value));
+		return;
+	}
+	(*found).second = value;
+}
+
 double Calcluate::Calc(std::string func, std::string op)
 {
 	double res = 0.0;
