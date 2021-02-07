@@ -21,10 +21,11 @@ void GASelector::MakeSelection()
 {
 	this->CalculateFitness();
 	this->CalculateProbabilities();
-
+	this->ClearData();
 	this->SelectParents();
 	this->SelectToDie();
 
+	this->CopyParents();
 	this->SelectForMutationAndCrossover();
 
 }
@@ -43,17 +44,20 @@ void GASelector::SetChoseSize(uint size)
 void GASelector::SelectParents()
 {
 	auto iter = this->data->begin();
+	//delete this->parents; // make clear func
+	//this->parents = new std::vector<Chromosome*>();
 	double r = 0.0;
 	uint chosen = 0;
 	while (chosen < this->chose_size)
 	{
 		for (int i = 0; i < this->data->size(); ++i)
 		{
-			r = rand() / RAND_MAX;
+			r = (double)rand() / RAND_MAX; // rand == 0.0 ???????
 
 			if (r < this->selection_prob[i] && !ParentsOrToDieHasChromosome(data->at(i)))
 			{
-				this->parents->push_back(new Chromosome(data->at(i)->GetData()));
+				//this->parents->push_back(new Chromosome(data->at(i)->GetData()));
+				this->parents->push_back(this->data->at(i));
 				chosen++;
 				if (chosen == this->chose_size)
 				{
@@ -76,7 +80,7 @@ void GASelector::SelectToDie()
 	{
 		for (int i = 0; i < this->data->size(); ++i)
 		{
-			r = rand() / RAND_MAX;
+			r = (double)rand() / RAND_MAX; // always r == 0.0 ??????? why?
 
 			if (r < this->die_prob[i] && !ParentsOrToDieHasChromosome(data->at(i)))
 			{
@@ -113,8 +117,8 @@ void GASelector::SelectForMutationAndCrossover()
 
 	auto iter = this->parents->begin();
 
-	this->to_crossove = new  std::vector<std::pair<Chromosome*, Chromosome*>>();
-	this->to_mutate = new std::vector<Chromosome*>();
+	//this->to_crossove = new  std::vector<std::pair<Chromosome*, Chromosome*>>();
+	//this->to_mutate = new std::vector<Chromosome*>();
 
 
 	auto to_cross =std::pair<Chromosome*, Chromosome*>();
@@ -126,14 +130,14 @@ void GASelector::SelectForMutationAndCrossover()
 	while (iter < this->parents->end())
 	{
 		cross_added = false;
-		r = rand() / RAND_MAX;
+		r = (double)rand() / RAND_MAX;
 		if (r < this->p_cross)
 		{
 			to_cross.first = *iter;
 			iter++;
 			while (iter < this->parents->end())
 			{
-				r = rand() / RAND_MAX;
+				r = (double)rand() / RAND_MAX;
 				if (r < this->p_cross)
 				{
 					to_cross.second = *iter;
@@ -156,6 +160,10 @@ void GASelector::SelectForMutationAndCrossover()
 		else
 		{
 			this->to_mutate->push_back(*iter);
+		}
+		if (iter == this->parents->end())
+		{
+			break;
 		}
 		iter++;
 	}
@@ -199,9 +207,49 @@ void GASelector::CalculateProbabilities()
 	while (iter < this->chrom_fitness.end())
 	{
 		this->selection_prob.push_back(*iter / this->CurrentTotalFitness);
-		this->die_prob.push_back(1 - (*iter / this->CurrentTotalFitness));
+		this->die_prob.push_back(1-(*iter / this->CurrentTotalFitness));
 		iter++;
 	}
+}
+
+void GASelector::ClearData()
+{
+	if (this->parents != nullptr)
+	{
+		delete this->parents;
+	}
+	if (this->to_die != nullptr)
+	{
+		delete this->to_die;
+	}
+	if (this->to_crossove != nullptr)
+	{
+		delete this->to_crossove;
+	}
+	if (this->to_mutate != nullptr)
+	{
+		delete this->to_mutate;
+	}
+	this->parents = new std::vector<Chromosome*>();
+	this->to_die = new std::vector<Chromosome*>();
+
+	this->to_crossove = new  std::vector<std::pair<Chromosome*, Chromosome*>>();
+	this->to_mutate = new std::vector<Chromosome*>();
+
+}
+
+void GASelector::CopyParents()
+{
+	auto copy = new std::vector<Chromosome*>();
+	auto iter = this->parents->begin();
+	while (iter < this->parents->end())
+	{
+		copy->push_back(new Chromosome(new Tree(*(*iter)->GetData())));
+		iter++;
+	}
+	delete this->parents; // 
+	this->parents = copy;
+
 }
 
 bool GASelector::ParentsOrToDieHasChromosome(Chromosome* chr)
@@ -209,7 +257,7 @@ bool GASelector::ParentsOrToDieHasChromosome(Chromosome* chr)
 	auto pIter = this->parents->begin();
 	while (pIter < this->parents->end())
 	{
-		if (chr->GetData() == (*pIter)->GetData())
+		if (chr == (*pIter)) // something wrong
 		{
 			return true;
 		}
@@ -220,7 +268,7 @@ bool GASelector::ParentsOrToDieHasChromosome(Chromosome* chr)
 	auto dIter = this->to_die->begin();
 	while (dIter < this->to_die->end())
 	{
-		if (chr->GetData() == (*dIter)->GetData())
+		if (chr == (*dIter))
 		{
 			return true;
 		}

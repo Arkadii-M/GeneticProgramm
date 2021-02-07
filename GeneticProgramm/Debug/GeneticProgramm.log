@@ -1,18 +1,3 @@
-﻿  Calculate.cpp
-  Chromosome.cpp
-  GAEvaluate.cpp
-  GAExecuter.cpp
-  GAOperators.cpp
-  GASelector.cpp
-C:\Users\Programmer\source\repos\GeneticProgramm\GeneticProgramm\GASelector.cpp(50,21): warning C4018: <: несоответствие типов со знаком и без знака
-C:\Users\Programmer\source\repos\GeneticProgramm\GeneticProgramm\GASelector.cpp(77,21): warning C4018: <: несоответствие типов со знаком и без знака
-  GAWorker.cpp
-  main.cpp
+﻿  main.cpp
 C:\Users\Programmer\source\repos\GeneticProgramm\GeneticProgramm\main.cpp(21,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-  Node.cpp
-  Random.cpp
-  RedefinedOperators.cpp
-  SubTreeGenerator.cpp
-  Tree.cpp
-  Создание кода...
   GeneticProgramm.vcxproj -> C:\Users\Programmer\source\repos\GeneticProgramm\Debug\GeneticProgramm.exe

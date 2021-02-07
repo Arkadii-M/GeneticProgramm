@@ -1,4 +1,5 @@
 #include "GAWorker.h"
+#include <iostream>
 
 GAWorker::GAWorker(std::vector<Chromosome*>* data, double p_mut, double p_cross):
 	data(data),
@@ -52,6 +53,8 @@ void GAWorker::ExecuteMany(uint times)
 	for (uint i = 1; i <= times; ++i)
 	{
 		this->Execute();
+		auto rng = std::default_random_engine{};
+		std::shuffle(this->data->begin(), this->data->end(),rng);
 	}
 }
 
@@ -89,6 +92,7 @@ void GAWorker::Init()
 
 void GAWorker::DeleteFromPopulation(std::vector<Chromosome*>* to_die)
 {
+	/*
 	auto iter = this->data->begin();
 	auto dIter = to_die->begin();
 	while (iter < this->data->end())
@@ -96,18 +100,61 @@ void GAWorker::DeleteFromPopulation(std::vector<Chromosome*>* to_die)
 		dIter = to_die->begin();
 		while (dIter < to_die->end())
 		{
-			if ((*iter)->GetData() == (*dIter)->GetData())
+			if ((*iter) == (*dIter))
 			{
 				iter = this->data->erase(iter);
-				break;
+				dIter = to_die->begin();
+				continue;
 			}
 			dIter++;
 		}
 		iter++;
 	}
+	*/
+	auto iter = this->data->begin();
+	auto diter = to_die->begin();
+	bool erase = false;
+	while (iter < this->data->end())
+	{
+		diter = to_die->begin();
+		while (diter < to_die->end())
+		{
+			if ((*iter) == (*diter))
+			{
+				erase = true;
+				to_die->erase(diter);
+				break;
+			}
+			diter++;
+		}
+
+		if (erase)
+		{
+			iter = this->data->erase(iter);
+			erase = false;
+			continue;
+		}
+		iter++;
+	}
+
 }
 
 void GAWorker::AddToPopulation(std::vector<Chromosome*>* to_add)
 {
 	this->data->insert(this->data->begin(),to_add->begin(), to_add->end());
+}
+
+std::ostream& operator<<(std::ostream& os, const GAWorker& dt)
+{
+	// TODO: вставьте здесь оператор return
+	auto iter = dt.data->begin();
+	std::cout << "Data size: " << dt.data->size() << std::endl;
+	std::cout << "Adresses: " << std::endl;
+	while (iter < dt.data->end())
+	{
+		std::cout << "Chromosome adress: " << *iter << "Data adress: " << (*iter)->GetData() << std::endl;
+		iter++;
+	}
+
+	return os;
 }

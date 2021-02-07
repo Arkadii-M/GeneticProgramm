@@ -3,6 +3,7 @@
 #include "GASelector.h"
 #include "GAExecuter.h"
 #include "Calculate.h"
+#include <ostream>
 #pragma once
 #ifndef GAWORKER_H
 #define GAWORKER_H
@@ -39,6 +40,9 @@ public:
 
 	std::vector<Chromosome*>* GetData();
 	Chromosome* GetBest();
+
+	friend std::ostream& operator<<(std::ostream& os, const GAWorker& dt);
+
 
 private:
 	void Execute();

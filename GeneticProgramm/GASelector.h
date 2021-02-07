@@ -61,7 +61,9 @@ private:
 	void CalculateFitness();
 	void CalculateProbabilities();
 
+	void CopyParents();
 
+	void ClearData();
 	bool ParentsOrToDieHasChromosome(Chromosome * chr);
 };
 

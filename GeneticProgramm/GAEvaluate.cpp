@@ -37,5 +37,5 @@ double GAEvaluate::Eval(Chromosome* chr)
 		y_iter++;
 		x_iter++;
 	}
-	return res;
+	return -res;
 }

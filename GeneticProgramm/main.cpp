@@ -18,11 +18,10 @@ int main()
 
 
 
-	srand(time(NULL));
+	srand(time(0));
 
 	cout << "test" << endl;
-	
-	double crossove_prob = 0.38;
+	double crossove_prob = 0.68;
 	std::vector<std::string> vars = std::vector<std::string>();
 	vars.push_back("x");
 
@@ -73,22 +72,18 @@ int main()
 
 	//create population
 	std::vector<Chromosome*>* data = new std::vector<Chromosome*>();
-
-
-	Chromosome* chr1 = new Chromosome(generator->GenerateNewTree(2, 2));
-	Chromosome* chr2 = new Chromosome(generator->GenerateNewTree(2, 2));
-	Chromosome* chr3 = new Chromosome(generator->GenerateNewTree(2, 2));
-	Chromosome* chr4 = new Chromosome(generator->GenerateNewTree(2, 2));
-	Chromosome* chr5 = new Chromosome(generator->GenerateNewTree(2, 2));
-
-	data->push_back(chr1);
-	data->push_back(chr2);
-	data->push_back(chr3);
-	data->push_back(chr4);
-	data->push_back(chr5);
+	const uint to_gen = 20;
+	const uint min_dep = 2;
+	const uint max_dep = 5;
+	for (uint i = 0; i < to_gen; ++i)
+	{
+		data->push_back(new Chromosome(generator->GenerateNewTree(min_dep, max_dep)));
+	}
 
 	// setup GASelector
 	GASelector* selector = new GASelector(data, eval);
+	selector->SetChoseSize(2);
+	selector->SetCrossoverProbability(crossove_prob);
 
 	//setup GAWorker
 	GAWorker* worker = new GAWorker(data,0.0,0.63);
@@ -97,7 +92,26 @@ int main()
 	worker->SetExecuter(executer);
 	worker->SetSelector(selector);
 
+	cout << *worker << endl;
+	auto iter_b = data->begin();
+	while (iter_b < data->end())
+	{
+		cout << "Eval: " << eval->Eval(*iter_b) << endl;
+		iter_b++;
+	}
 
+
+	worker->ExecuteMany(100);
+	cout << *worker << endl;
+
+	auto dat = worker->GetData();
+
+	auto iter = dat->begin();
+	while (iter < dat->end())
+	{
+		cout << "Eval: " << eval->Eval(*iter) << endl;
+		iter++;
+	}
 
 	delete worker;
 

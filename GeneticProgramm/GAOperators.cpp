@@ -41,7 +41,7 @@ void GAOperators::Mutate(Chromosome* chr)
 
 	Node* node = tree->GetNodeAtPos(r);
 
-	Node* random = this->generator->GenerateSubTree(tree->GetMinDepth(), tree->GetMaxDepth()); // Generate random subtree here
+	Node* random = this->generator->GenerateSubTree(1, 2); // Generate random subtree here
 
 	tree->SetAndDeleteOldAtPos(random, r);
 	tree->NumerateNodes();
