@@ -18,6 +18,11 @@ public:
 
 	void Crossove(Chromosome* chr1, Chromosome* chr2);
 	void Mutate(Chromosome* chr);
+
+private:
+	uint CalculateSubTreeDepth(Node * subtree);
+
+	uint CalcDepth(Node *node,uint depth);
 };
 
 #endif GA_OPERATORS

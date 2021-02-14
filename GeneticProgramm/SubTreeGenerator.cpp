@@ -55,7 +55,7 @@ Node* SubTreeGenerator::GenerateSubTree(uint depth)
 Node* SubTreeGenerator::GenerateSubTree(uint min_depth, uint max_depth)
 {
 	Node* subtree = nullptr;
-	uint depth = this->min_depth + (int)(rand() % (this->max_depth - this->min_depth + 1)); // rand between min_depth and max_depth
+	uint depth = min_depth + (int)(rand() % (max_depth -min_depth + 1)); // rand between min_depth and max_depth
 
 	uint ltc = depth;
 

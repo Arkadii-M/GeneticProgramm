@@ -46,7 +46,7 @@ void Tree::SetDepth(uint depth)
 
 void Tree::NumerateNodes()
 {
-	this->total_nodes = this->NumeratePostOrder(this->root,1)-1;  // -1 because the last returns (num+1)
+	this->total_nodes = this->NumeratePostOrder(this->root,1,0)-1;  // -1 because the last returns (num+1)
 }
 
 void Tree::SetNodeAtPos(Node* node, uint pos)
@@ -112,12 +112,15 @@ Node* Tree::GetNodeAtPos(uint pos)
 	return this->GetNodePostOrder(this->root,pos);
 }
 
-uint Tree::NumeratePostOrder(Node* node,uint num)
+uint Tree::NumeratePostOrder(Node* node,uint num, uint depth)
 {
 	if (node == nullptr) { return num; }
-	num =NumeratePostOrder(node->GetLeftSon(),num);
-	num = NumeratePostOrder(node->GetRightSon(),num);
+
+	num =NumeratePostOrder(node->GetLeftSon(),num,depth+1);
+	num = NumeratePostOrder(node->GetRightSon(),num,depth+1);
+
 	node->SetNum(num);
+	node->SetDepth(depth);
 	return (num + 1);
 }
 

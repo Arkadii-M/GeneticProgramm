@@ -152,7 +152,7 @@ std::ostream& operator<<(std::ostream& os, const GAWorker& dt)
 	std::cout << "Adresses: " << std::endl;
 	while (iter < dt.data->end())
 	{
-		std::cout << "Chromosome adress: " << *iter << "Data adress: " << (*iter)->GetData() << std::endl;
+		std::cout << "Chromosome adress: " << *iter << "Data adress: " << (*iter)->GetData() << "Data depth:" <<(*iter)->GetData()->GetCurrentDepth() << std::endl;
 		iter++;
 	}
 

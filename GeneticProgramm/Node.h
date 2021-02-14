@@ -16,6 +16,7 @@ private:
 	Node* right_son;
 
 	uint order_number; // node id after ordering a tree
+	uint depth;
 
 public:
 	Node(bool terminate, std::string val, Node* left = nullptr, Node* right = nullptr);
@@ -38,6 +39,10 @@ public:
 
 	uint GetNum();
 	void SetNum(uint num);
+
+
+	uint GetDepth();
+	void SetDepth(uint depth);
 
 
 

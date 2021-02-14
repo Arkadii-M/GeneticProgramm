@@ -141,7 +141,14 @@ std::string Calcluate::CalcString(std::string func, std::string left, std::strin
 
 double Calcluate::StringToDouble(std::string val)
 {
-	return std::stod(val);
+	try
+	{
+		return std::stod(val);
+	}
+	catch (...)
+	{
+		return this->var_map.at(val);
+	}
 }
 
 double Calcluate::CalcTree(Tree* tree)

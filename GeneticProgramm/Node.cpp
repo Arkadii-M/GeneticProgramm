@@ -1,18 +1,20 @@
 #include "Node.h"
 
 Node::Node(bool terminate, std::string val, Node* left, Node* right):
-	is_terminate(terminate),
+	is_terminate(terminate), //error
 	value(val),
 	left_son(left),
 	right_son(right),
-	order_number(0)
+	order_number(0),
+	depth(0)
 {
 }
 
 Node::Node(const Node& node):
 	is_terminate(node.is_terminate),
 	value(node.value),
-	order_number(node.order_number)
+	order_number(node.order_number),
+	depth(node.depth)
 {
 	if (node.left_son != nullptr)
 	{
@@ -89,4 +91,14 @@ uint Node::GetNum()
 void Node::SetNum(uint num)
 {
 	this->order_number = num;
+}
+
+uint Node::GetDepth()
+{
+	return this->depth;
+}
+
+void Node::SetDepth(uint depth)
+{
+	this->depth = depth;
 }

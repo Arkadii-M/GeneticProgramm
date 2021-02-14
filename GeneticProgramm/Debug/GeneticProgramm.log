@@ -1,3 +1,3 @@
 ﻿  main.cpp
-C:\Users\Programmer\source\repos\GeneticProgramm\GeneticProgramm\main.cpp(21,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\Programmer\source\repos\GeneticProgramm\GeneticProgramm\main.cpp(21,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   GeneticProgramm.vcxproj -> C:\Users\Programmer\source\repos\GeneticProgramm\Debug\GeneticProgramm.exe

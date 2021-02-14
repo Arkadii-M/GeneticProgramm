@@ -31,7 +31,7 @@ public:
 
 	Node* GetNodeAtPos(uint pos);
 private:
-	uint NumeratePostOrder(Node* node,uint num); // numerate the nodes by post ordering
+	uint NumeratePostOrder(Node* node,uint num,uint depth); // numerate the nodes by post ordering
 
 	Node* GetNodePostOrder(Node* node,uint pos);
 
