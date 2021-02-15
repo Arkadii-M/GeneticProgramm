@@ -15,6 +15,7 @@ SubTreeGenerator::SubTreeGenerator(
 	functions_operator_count(func_op_count),
 	depth(0)
 {
+	random = Random();
 	if (tree != nullptr)
 	{
 		this->max_depth = tree->GetMaxDepth();
@@ -55,8 +56,8 @@ Node* SubTreeGenerator::GenerateSubTree(uint depth)
 Node* SubTreeGenerator::GenerateSubTree(uint min_depth, uint max_depth)
 {
 	Node* subtree = nullptr;
-	uint depth = min_depth + (int)(rand() % (max_depth -min_depth + 1)); // rand between min_depth and max_depth
-
+	//uint depth = min_depth + (int)(rand() % (max_depth -min_depth + 1)); // rand between min_depth and max_depth
+	uint depth = random.GenerateIntInRange(min_depth, max_depth);
 	uint ltc = depth;
 
 	subtree = this->RandTree(ltc);
@@ -67,8 +68,8 @@ Node* SubTreeGenerator::GenerateSubTree(uint min_depth, uint max_depth)
 Node* SubTreeGenerator::GenerateTree()
 {
 	Node* subtree = nullptr;
-	this->depth = this->min_depth +  (int) ( rand() % (this->max_depth - this->min_depth +1) ); // rand between min_depth and max_depth
-
+	//this->depth = this->min_depth +  (int) ( rand() % (this->max_depth - this->min_depth +1) ); // rand between min_depth and max_depth
+	this->depth = random.GenerateIntInRange(min_depth, max_depth);
 	uint ltc = this->depth;
 
 	subtree = this->RandTree(ltc);
@@ -91,7 +92,8 @@ Node* SubTreeGenerator::RandTree(uint ltc)
 	}
 	else
 	{
-		double r = ((double)rand() / (RAND_MAX));
+		//double r = ((double)rand() / (RAND_MAX));
+		double r = random.GenerateDouble();
 		if (r < 1)// in sheets there is r == 1
 		{
 			//create functional node
@@ -101,7 +103,8 @@ Node* SubTreeGenerator::RandTree(uint ltc)
 		{
 
 			uint k = this->constants.size() + this->functions.size() + this->variables.size();
-			uint ran = (rand() %(k)) + 1;
+			//uint ran = (rand() %(k)) + 1;
+			uint ran = random.GenerateIntInRange(1, k);
 			if (ran < this->functions.size())
 			{
 				//create functional node
@@ -120,7 +123,8 @@ Node* SubTreeGenerator::RandTree(uint ltc)
 Node* SubTreeGenerator::CreateTerminalNode(uint ltc)
 {
 	Node* node = nullptr;
-	uint r = (rand() % (this->variables.size() + this->constants.size())) + 1; // generate random value from 1 to var_count + const_count
+	//uint r = (rand() % (this->variables.size() + this->constants.size())) + 1; // generate random value from 1 to var_count + const_count
+	uint r = random.GenerateIntInRange(1, this->variables.size() + this->constants.size());
 	std::string val = std::string();
 
 	if (r <= this->variables.size()) // if generated is not in vars range then select from the const
@@ -142,7 +146,8 @@ Node* SubTreeGenerator::CreateTerminalNode(uint ltc)
 Node* SubTreeGenerator::CreateFunctionalNode(uint ltc)
 {
 	Node* node = nullptr;
-	uint r = (rand() %(this->functions.size())) + 1;
+	//uint r = (rand() %(this->functions.size())) + 1;
+	uint r = random.GenerateIntInRange(1, this->functions.size());
 	r = r - 1;
 	std::string func = this->functions.at(r);
 	node = new Node(false,func);

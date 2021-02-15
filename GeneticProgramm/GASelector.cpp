@@ -14,7 +14,7 @@ GASelector::GASelector(std::vector<Chromosome*>* data, GAEvaluate* evaluate):
 
 
 {
-
+	random = Random();
 }
 
 void GASelector::MakeSelection()
@@ -52,8 +52,8 @@ void GASelector::SelectParents()
 	{
 		for (int i = 0; i < this->data->size(); ++i)
 		{
-			r = (double)rand() / RAND_MAX; // rand == 0.0 ???????
-
+			//r = (double)rand() / RAND_MAX; // rand == 0.0 ???????
+			r = random.GenerateDouble();
 			if (r < this->selection_prob[i] && !ParentsOrToDieHasChromosome(data->at(i)))
 			{
 				//this->parents->push_back(new Chromosome(data->at(i)->GetData()));
@@ -80,8 +80,8 @@ void GASelector::SelectToDie()
 	{
 		for (int i = 0; i < this->data->size(); ++i)
 		{
-			r = (double)rand() / RAND_MAX; // always r == 0.0 ??????? why?
-
+			//r = (double)rand() / RAND_MAX; // always r == 0.0 ??????? why?
+			r = random.GenerateDouble();
 			if (r < this->die_prob[i] && !ParentsOrToDieHasChromosome(data->at(i)))
 			{
 				this->to_die->push_back(this->data->at(i));
@@ -130,14 +130,16 @@ void GASelector::SelectForMutationAndCrossover()
 	while (iter < this->parents->end())
 	{
 		cross_added = false;
-		r = (double)rand() / RAND_MAX;
+		//r = (double)rand() / RAND_MAX;
+		r = random.GenerateDouble();
 		if (r < this->p_cross)
 		{
 			to_cross.first = *iter;
 			iter++;
 			while (iter < this->parents->end())
 			{
-				r = (double)rand() / RAND_MAX;
+				//r = (double)rand() / RAND_MAX;
+				r = random.GenerateDouble();
 				if (r < this->p_cross)
 				{
 					to_cross.second = *iter;
@@ -206,8 +208,8 @@ void GASelector::CalculateProbabilities()
 
 	while (iter < this->chrom_fitness.end())
 	{
-		this->selection_prob.push_back(*iter / this->CurrentTotalFitness);
-		this->die_prob.push_back(1-(*iter / this->CurrentTotalFitness));
+		this->selection_prob.push_back(1.0 - (*iter / this->CurrentTotalFitness));
+		this->die_prob.push_back((*iter / this->CurrentTotalFitness));
 		iter++;
 	}
 }

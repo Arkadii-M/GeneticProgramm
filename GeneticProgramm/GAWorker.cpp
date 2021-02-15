@@ -53,8 +53,8 @@ void GAWorker::ExecuteMany(uint times)
 	for (uint i = 1; i <= times; ++i)
 	{
 		this->Execute();
-		auto rng = std::default_random_engine{};
-		std::shuffle(this->data->begin(), this->data->end(),rng);
+		//auto rng = std::default_random_engine{};
+		//std::shuffle(this->data->begin(), this->data->end(),rng);
 	}
 }
 

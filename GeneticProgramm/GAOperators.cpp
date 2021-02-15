@@ -4,6 +4,7 @@
 GAOperators::GAOperators(SubTreeGenerator* generator):
 	generator(generator)
 {
+	random = Random();
 }
 
 GAOperators::~GAOperators()
@@ -19,7 +20,8 @@ void GAOperators::Crossove(Chromosome* chr1, Chromosome* chr2) // some errors
 	uint first_count = first->GetTotalNodes();
 	uint second_count = second->GetTotalNodes();
 
-	uint r1 = rand() % (first_count - 1) + 1; // Select first randomly
+	//uint r1 = rand() % (first_count - 1) + 1; // Select first randomly
+	uint r1 = random.GenerateIntInRange(1, first_count - 1);
 	Node* node1 = first->GetNodeAtPos(r1);
 
 	uint max_depth_find = first->GetMaxDepth() - node1->GetDepth();
@@ -30,7 +32,8 @@ void GAOperators::Crossove(Chromosome* chr1, Chromosome* chr2) // some errors
 	Node* node2 = nullptr;
 	while (true)
 	{
-		r2 = rand() % (second_count - 1) + 1;
+		//r2 = rand() % (second_count - 1) + 1;
+		r2 = random.GenerateIntInRange(1, second_count - 1);
 		node2 = second->GetNodeAtPos(r2);
 		if ((second->GetMaxDepth()-node2->GetDepth() >= find ) &&    this->CalculateSubTreeDepth(node2) <= max_depth_find)
 		{
@@ -51,8 +54,8 @@ void GAOperators::Mutate(Chromosome* chr)
 
 	uint count = tree->GetTotalNodes();
 
-	uint r = rand() % (count - 1) + 1;
-
+	//uint r = rand() % (count - 1) + 1;
+	uint r = random.GenerateIntInRange(1, count - 1);
 	Node* node = tree->GetNodeAtPos(r);
 	uint current_node_depth = node->GetDepth();
 

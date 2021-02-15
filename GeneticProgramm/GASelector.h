@@ -3,6 +3,7 @@
 #include "Chromosome.h"
 #include "Calculate.h"
 #include "GAEvaluate.h"
+#include "Random.h"
 #ifndef GASELECTOR_H
 #define GASELECTOR_H
 typedef unsigned int uint;
@@ -33,6 +34,8 @@ private:
 	uint chose_size;
 
 	GAEvaluate* evaluate;
+
+	Random random;
 
 
 

@@ -4,6 +4,7 @@
 #include <random>
 #include <string>
 #include <map>
+#include "Random.h"
 
 typedef unsigned int uint;
 #pragma once
@@ -24,6 +25,8 @@ private:
 	std::vector<std::string> constants;
 	std::vector<std::string> functions;
 	std::map<std::string, unsigned int> functions_operator_count; // for example: abs -1, * - 2
+
+	Random random;
 
 public:
 	SubTreeGenerator(std::vector<std::string> variables,

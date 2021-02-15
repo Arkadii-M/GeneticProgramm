@@ -1,20 +1,29 @@
 #include "Random.h"
-/*
+#include <iostream>
+
 Random::Random()
 {
-	//Random::generator = std::mt19937(rd());
+	std::random_device rd;
+	this->generator = std::mt19937(rd());
+	fraction = 1.0 / ((double)(generator.max()) + 1.0);
 }
 
-//std::random_device Random::rd = std::random_device();
-std::mt19937 Random::generator = std::mt19937(Random::rd());
-
-double Random::GenerateDoubleInRange(double left, double right)
+double Random::GenerateDoubleInRange(double min, double max)
 {
+	
 	return 0.0;
 }
 
-int Random::GenerateIntInRange(int left, int right)
+double Random::GenerateDouble()
 {
-	return Random::generator();
+	double gen = (double)(generator() * fraction);
+	//std::cout << gen << std::endl;
+	return gen;
 }
-*/
+
+int Random::GenerateIntInRange(int min, int max)
+{
+	int gen = (int)(generator() * fraction * ((double)max - (double)min + 1.0) + (double)min);
+	//std::cout << gen << std::endl;
+	return gen;
+}

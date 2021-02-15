@@ -9,7 +9,7 @@ class GAOperators
 private:
 
 	SubTreeGenerator* generator;
-
+	Random random;
 
 public:
 	GAOperators(SubTreeGenerator* generator);
