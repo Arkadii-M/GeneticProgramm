@@ -22,7 +22,7 @@ void Calcluate::SetVarsMap(std::map<std::string, double> var_map)
 	this->var_map = var_map;
 }
 
-void Calcluate::SetVarValue(std::string var, double value)
+void Calcluate::SetVarValue(std::string var, double value) // set value for variable
 {
 	bool has_in_vars = false;
 	auto iter = this->variables.begin();
@@ -50,6 +50,36 @@ void Calcluate::SetVarValue(std::string var, double value)
 	(*found).second = value;
 }
 
+double Calcluate::Calc(std::string op)
+{
+	double res = 0.0;
+	double param = 0.0;
+
+	bool found = false;
+	auto it = this->variables.begin();
+
+	while (it < this->variables.end()) // if op is a variable it finds the mapped value 
+	{
+		if (*it == op)
+		{
+			param = this->var_map.at(op);
+			found = true;
+			break;
+		}
+
+		it++;
+	}
+
+	if (!found)// if op is not a variable it's a value.
+	{
+		// convert string to double
+		param = StringToDouble(op);
+	}
+
+	res = param;
+	return res;
+}
+
 double Calcluate::Calc(std::string func, std::string op)
 {
 	double res = 0.0;
@@ -59,7 +89,7 @@ double Calcluate::Calc(std::string func, std::string op)
 	bool found = false;
 	auto it = this->variables.begin();
 
-	while (it < this->variables.end()) // if op is variable it finds the mapped value 
+	while (it < this->variables.end()) // if op is a variable it finds the mapped value 
 	{
 		if (*it == op)
 		{
@@ -128,6 +158,11 @@ double Calcluate::Calc(std::string func, std::string left, std::string right)
 	return res;
 }
 
+std::string Calcluate::CalcString(std::string op)
+{
+	return std::to_string(this->Calc(op));
+}
+
 std::string Calcluate::CalcString(std::string func, std::string op)
 {
 	
@@ -141,14 +176,7 @@ std::string Calcluate::CalcString(std::string func, std::string left, std::strin
 
 double Calcluate::StringToDouble(std::string val)
 {
-	try
-	{
-		return std::stod(val);
-	}
-	catch (...)
-	{
-		return this->var_map.at(val);
-	}
+	return std::stod(val);
 }
 
 double Calcluate::CalcTree(Tree* tree)
@@ -160,7 +188,7 @@ std::string Calcluate::PostOrderCalc(Node* node)
 {
 	if (node->IsTerminate()) 
 	{
-		return node->GetValue();
+		return CalcString(node->GetValue());
 	}
 	if (node->GetRightSon() == nullptr) // if it's a operator for one parameter
 	{

@@ -15,7 +15,7 @@ class GAWorker
 private:
 	uint pop_size;
 
-	double p_mut; // probability of mutation
+	//double p_mut; // probability of mutation
 	double p_cross;// probability of crossover
 
 	double avg_fitness;
@@ -26,7 +26,7 @@ private:
 
 	
 public:
-	GAWorker(std::vector<Chromosome*>* data,double p_mut,double p_cross);
+	GAWorker(std::vector<Chromosome*>* data,double p_cross);
 	~GAWorker();
 
 	void SetExecuter(GAExecuter* executer);

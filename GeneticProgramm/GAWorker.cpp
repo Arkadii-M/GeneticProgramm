@@ -1,9 +1,9 @@
 #include "GAWorker.h"
 #include <iostream>
 
-GAWorker::GAWorker(std::vector<Chromosome*>* data, double p_mut, double p_cross):
+GAWorker::GAWorker(std::vector<Chromosome*>* data, double p_cross):
 	data(data),
-	p_mut(p_mut),
+	//p_mut(p_mut),
 	p_cross(p_cross),
 	executer(nullptr),
 	selector(nullptr),

@@ -12,7 +12,7 @@ GAOperators::~GAOperators()
 	delete generator;
 }
 
-void GAOperators::Crossove(Chromosome* chr1, Chromosome* chr2) // some errors
+void GAOperators::Crossove(Chromosome* chr1, Chromosome* chr2)
 {
 	Tree* first = chr1->GetData();
 	Tree* second = chr2->GetData();
@@ -20,24 +20,24 @@ void GAOperators::Crossove(Chromosome* chr1, Chromosome* chr2) // some errors
 	uint first_count = first->GetTotalNodes();
 	uint second_count = second->GetTotalNodes();
 
-	//uint r1 = rand() % (first_count - 1) + 1; // Select first randomly
-	uint r1 = random.GenerateIntInRange(1, first_count - 1);
+	uint r1 = random.GenerateIntInRange(1, first_count - 1); // select random node(not root)
 	Node* node1 = first->GetNodeAtPos(r1);
 
-	uint max_depth_find = first->GetMaxDepth() - node1->GetDepth();
+	//
+	//There we find the second node. This code need for contlor the tree limits. (Tree depth must be between max_depth and min_depth)
+	uint max_depth_find = first->GetMaxDepth() - node1->GetDepth(); // It's maximum size of sub tree which we can insert insted this node (node1 in first tree)
 
-	uint find = this->CalculateSubTreeDepth(node1);
+	uint find = this->CalculateSubTreeDepth(node1); // This need to find the second node.
 
 	uint r2 = 0;
 	Node* node2 = nullptr;
 	while (true)
 	{
-		//r2 = rand() % (second_count - 1) + 1;
-		r2 = random.GenerateIntInRange(1, second_count - 1);
+		r2 = random.GenerateIntInRange(1, second_count - 1);// select random node(not root)
 		node2 = second->GetNodeAtPos(r2);
 		if ((second->GetMaxDepth()-node2->GetDepth() >= find ) &&    this->CalculateSubTreeDepth(node2) <= max_depth_find)
 		{
-			break;
+			break;// the required node founded.
 		}
 	}
 
@@ -54,8 +54,7 @@ void GAOperators::Mutate(Chromosome* chr)
 
 	uint count = tree->GetTotalNodes();
 
-	//uint r = rand() % (count - 1) + 1;
-	uint r = random.GenerateIntInRange(1, count - 1);
+	uint r = random.GenerateIntInRange(1, count - 1);// select random node(not root)
 	Node* node = tree->GetNodeAtPos(r);
 	uint current_node_depth = node->GetDepth();
 
@@ -63,11 +62,6 @@ void GAOperators::Mutate(Chromosome* chr)
 
 	tree->SetAndDeleteOldAtPos(random, r);
 	tree->NumerateNodes();
-	//
-	tree->GetCurrentDepth();
-
-
-	//
 }
 
 uint GAOperators::CalculateSubTreeDepth(Node* subtree)

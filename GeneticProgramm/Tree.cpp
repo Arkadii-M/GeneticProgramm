@@ -52,13 +52,11 @@ void Tree::NumerateNodes()
 void Tree::SetNodeAtPos(Node* node, uint pos)
 {
 	this->SetNodePostOrder(this->root, node, pos);
-	//this->NumerateNodes();
 
 }
 void Tree::SetAndDeleteOldAtPos(Node* node, uint pos)
 {
 	this->SetAndDeleteOldPostOrder(this->root, node, pos);
-	//this->NumerateNodes();
 }
 bool Tree::SetNodePostOrder(Node* current, Node* to_set, uint pos)
 {

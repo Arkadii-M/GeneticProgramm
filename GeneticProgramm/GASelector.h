@@ -67,7 +67,11 @@ private:
 	void CopyParents();
 
 	void ClearData();
-	bool ParentsOrToDieHasChromosome(Chromosome * chr);
+	//bool ParentsOrToDieHasChromosome(Chromosome * chr);
+
+
+	bool InParents(Chromosome* chr);
+	bool InDie(Chromosome* chr);
 };
 
 #endif // !GASELECTOR_H

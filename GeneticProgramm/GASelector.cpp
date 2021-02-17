@@ -25,7 +25,7 @@ void GASelector::MakeSelection()
 	this->SelectParents();
 	this->SelectToDie();
 
-	this->CopyParents();
+	this->CopyParents(); // copy data,pointers used.
 	this->SelectForMutationAndCrossover();
 
 }
@@ -44,22 +44,20 @@ void GASelector::SetChoseSize(uint size)
 void GASelector::SelectParents()
 {
 	auto iter = this->data->begin();
-	//delete this->parents; // make clear func
-	//this->parents = new std::vector<Chromosome*>();
+
 	double r = 0.0;
 	uint chosen = 0;
-	while (chosen < this->chose_size)
+	while (chosen < this->chose_size) // we need to find exactly chose_size induviduals
 	{
 		for (int i = 0; i < this->data->size(); ++i)
 		{
-			//r = (double)rand() / RAND_MAX; // rand == 0.0 ???????
 			r = random.GenerateDouble();
-			if (r < this->selection_prob[i] && !ParentsOrToDieHasChromosome(data->at(i)))
+			//if (r < this->selection_prob[i] && !ParentsOrToDieHasChromosome(data->at(i))) //
+			if (r < this->selection_prob[i] && !InParents(data->at(i))) //
 			{
-				//this->parents->push_back(new Chromosome(data->at(i)->GetData()));
 				this->parents->push_back(this->data->at(i));
 				chosen++;
-				if (chosen == this->chose_size)
+				if (chosen == this->chose_size) // find enough induviduals
 				{
 					break;
 				}
@@ -78,15 +76,15 @@ void GASelector::SelectToDie()
 	uint chosen = 0;
 	while (chosen < this->chose_size)
 	{
-		for (int i = 0; i < this->data->size(); ++i)
+		for (int i = 0; i < this->data->size(); ++i)// we need to find exactly chose_size induviduals
 		{
-			//r = (double)rand() / RAND_MAX; // always r == 0.0 ??????? why?
 			r = random.GenerateDouble();
-			if (r < this->die_prob[i] && !ParentsOrToDieHasChromosome(data->at(i)))
+			//if (r < this->die_prob[i] && !ParentsOrToDieHasChromosome(data->at(i)))
+			if (r < this->die_prob[i] && !this->InDie(data->at(i)))
 			{
 				this->to_die->push_back(this->data->at(i));
 				chosen++;
-				if (chosen == this->chose_size)
+				if (chosen == this->chose_size)// find enough induviduals
 				{
 					break;
 				}
@@ -117,10 +115,6 @@ void GASelector::SelectForMutationAndCrossover()
 
 	auto iter = this->parents->begin();
 
-	//this->to_crossove = new  std::vector<std::pair<Chromosome*, Chromosome*>>();
-	//this->to_mutate = new std::vector<Chromosome*>();
-
-
 	auto to_cross =std::pair<Chromosome*, Chromosome*>();
 
 	double r = 0.0;
@@ -130,30 +124,29 @@ void GASelector::SelectForMutationAndCrossover()
 	while (iter < this->parents->end())
 	{
 		cross_added = false;
-		//r = (double)rand() / RAND_MAX;
 		r = random.GenerateDouble();
 		if (r < this->p_cross)
 		{
-			to_cross.first = *iter;
+			to_cross.first = *iter; // we find first induvidual for crossover
 			iter++;
-			while (iter < this->parents->end())
+
+			while (iter < this->parents->end()) // there we try to find the pair to crossover
 			{
-				//r = (double)rand() / RAND_MAX;
 				r = random.GenerateDouble();
 				if (r < this->p_cross)
 				{
 					to_cross.second = *iter;
-					this->to_crossove->push_back(to_cross);
+					this->to_crossove->push_back(to_cross); // found second induvidual for crossover
 					cross_added = true;
 					break;
 				}
-				else
+				else // if we don't select this induvidual to crossover we add this to mutation
 				{
 					this->to_mutate->push_back(*iter);
 				}
 				iter++;
 			}
-			if (!cross_added)
+			if (!cross_added) // if we can't find pair we add selected induvidual to mutation.
 			{
 				this->to_mutate->push_back(to_cross.first);
 			}
@@ -184,7 +177,7 @@ void GASelector::SetData(std::vector<Chromosome*>* data)
 	this->data = data;
 }
 
-void GASelector::CalculateFitness()
+void GASelector::CalculateFitness() // calculate fitness fo each induvidual and total fitness
 {
 	this->chrom_fitness.clear();
 	double total_fitness = 0.0;
@@ -193,7 +186,6 @@ void GASelector::CalculateFitness()
 	while (iter < this->data->end())
 	{
 		fitness = this->evaluate->Eval(*iter);
-		//fitness = this->Eval(*iter, this->y, this->calc);
 		this->chrom_fitness.push_back(fitness);
 		total_fitness += fitness;
 		iter++;
@@ -202,19 +194,24 @@ void GASelector::CalculateFitness()
 	this->CurrentTotalFitness = total_fitness;
 }
 
-void GASelector::CalculateProbabilities()
+void GASelector::CalculateProbabilities() // calculate proportional probabilities
 {
 	auto iter = this->chrom_fitness.begin();
 
 	while (iter < this->chrom_fitness.end())
 	{
-		this->selection_prob.push_back(1.0 - (*iter / this->CurrentTotalFitness));
+		//We try to find the minimum.
+		// for example total_prob = -100,induvidual_prob = -3
+		// then selection probability is 1 - (-3)/(-100) =1 - 0.03 = 0.97
+		//and die probability is (-3)/(-100) = 0.03
+
+		this->selection_prob.push_back(1.0 - (*iter / this->CurrentTotalFitness)); 
 		this->die_prob.push_back((*iter / this->CurrentTotalFitness));
 		iter++;
 	}
 }
 
-void GASelector::ClearData()
+void GASelector::ClearData() // delete an old data
 {
 	if (this->parents != nullptr)
 	{
@@ -240,7 +237,7 @@ void GASelector::ClearData()
 
 }
 
-void GASelector::CopyParents()
+void GASelector::CopyParents() // make copy
 {
 	auto copy = new std::vector<Chromosome*>();
 	auto iter = this->parents->begin();
@@ -249,23 +246,22 @@ void GASelector::CopyParents()
 		copy->push_back(new Chromosome(new Tree(*(*iter)->GetData())));
 		iter++;
 	}
-	delete this->parents; // 
+	delete this->parents;
 	this->parents = copy;
 
 }
-
-bool GASelector::ParentsOrToDieHasChromosome(Chromosome* chr)
+/*
+bool GASelector::ParentsOrToDieHasChromosome(Chromosome* chr) // find if induvidual already selected for parents or for die
 {
 	auto pIter = this->parents->begin();
 	while (pIter < this->parents->end())
 	{
-		if (chr == (*pIter)) // something wrong
+		if (chr == (*pIter))
 		{
 			return true;
 		}
 		pIter++;
 	}
-
 
 	auto dIter = this->to_die->begin();
 	while (dIter < this->to_die->end())
@@ -276,7 +272,35 @@ bool GASelector::ParentsOrToDieHasChromosome(Chromosome* chr)
 		}
 		dIter++;
 	}
+	return false;
+}
+*/
 
+bool GASelector::InParents(Chromosome* chr)
+{
+	auto pIter = this->parents->begin();
+	while (pIter < this->parents->end())
+	{
+		if (chr == (*pIter))
+		{
+			return true;
+		}
+		pIter++;
+	}
+	return false;
+}
+
+bool GASelector::InDie(Chromosome* chr)
+{
+	auto dIter = this->to_die->begin();
+	while (dIter < this->to_die->end())
+	{
+		if (chr == (*dIter))
+		{
+			return true;
+		}
+		dIter++;
+	}
 	return false;
 }
 
