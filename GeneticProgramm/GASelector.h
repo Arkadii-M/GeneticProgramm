@@ -12,6 +12,7 @@ class GASelector
 {
 private:
 	double CurrentTotalFitness; // current total fitness of population
+	double CurrentMaxFitness;
 	//parameters
 	double p_mut; // probability of mutation
 	double p_cross; //probability of crossover
@@ -44,6 +45,7 @@ public:
 
 	void SetData(std::vector<Chromosome*>* data);
 	void SetCrossoverProbability(double prob);
+	void SetMutateProbability(double prob);
 	void SetChoseSize(uint size);
 
 	void MakeSelection();
@@ -55,13 +57,13 @@ public:
 
 	std::vector<Chromosome*>* GetParents();
 
-
+	void CalculateFitness();
 private:
 	uint GetPopSize();
 	void SelectParents();
 	void SelectForMutationAndCrossover();
 	void SelectToDie();
-	void CalculateFitness();
+	
 	void CalculateProbabilities();
 
 	void CopyParents();

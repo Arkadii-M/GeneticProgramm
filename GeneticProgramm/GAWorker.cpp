@@ -77,8 +77,10 @@ void GAWorker::Execute()
 	this->executer->SetForCrossover(to_crossove);
 
 	this->executer->Execute();
-
 	this->AddToPopulation(to_add);
+
+
+	this->selector->CalculateFitness();
 }
 
 uint GAWorker::GetPopSize()

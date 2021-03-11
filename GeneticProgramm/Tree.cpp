@@ -56,7 +56,10 @@ void Tree::SetNodeAtPos(Node* node, uint pos)
 }
 void Tree::SetAndDeleteOldAtPos(Node* node, uint pos)
 {
-	this->SetAndDeleteOldPostOrder(this->root, node, pos);
+	if (this->SetAndDeleteOldPostOrder(this->root, node, pos))
+	{
+		this->root = node;
+	}
 }
 bool Tree::SetNodePostOrder(Node* current, Node* to_set, uint pos)
 {

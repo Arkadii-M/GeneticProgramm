@@ -78,6 +78,9 @@
     <ClCompile Include="GAOperators.cpp">
       <Filter>Исходные файлы\GAOperations</Filter>
     </ClCompile>
+    <ClCompile Include="TreeParser.cpp">
+      <Filter>Исходные файлы\Tree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Calculate.h">
@@ -115,6 +118,9 @@
     </ClInclude>
     <ClInclude Include="RedefinedOperators.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeParser.h">
+      <Filter>Файлы заголовков\Tree</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

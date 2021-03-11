@@ -53,6 +53,7 @@ void GAOperators::Mutate(Chromosome* chr)
 	Tree* tree = chr->GetData();
 
 	uint count = tree->GetTotalNodes();
+	
 
 	uint r = random.GenerateIntInRange(1, count - 1);// select random node(not root)
 	Node* node = tree->GetNodeAtPos(r);

@@ -26,6 +26,7 @@ public:
 	~Node();
 
 	bool IsTerminate();
+	void SetTerminate(bool param);
 
 	Node* GetLeftSon();
 	Node* GetRightSon();

@@ -53,6 +53,11 @@ bool Node::IsTerminate()
 	return  this->is_terminate;
 }
 
+void Node::SetTerminate(bool param)
+{
+	this->is_terminate = param;
+}
+
 Node* Node::GetLeftSon()  
 {
 	return this->left_son;
